@@ -1,5 +1,6 @@
 package com.yuan.fest.latte.ec.sign;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -38,6 +39,16 @@ public class SignUpDelegate extends LatteDelegate {
         if(checkForm()) {
             //TODO 上传信息到服务器
             Toast.makeText(getContext(), "成功", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private ISignListener mISignListener = null;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if(activity instanceof ISignListener){
+            mISignListener = (ISignListener) activity;
         }
     }
 
