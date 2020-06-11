@@ -1,0 +1,71 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.jakewharton.butterknife'
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion "28.0.0"
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation project(path: ':latte-annotation')
+
+    //support
+    api group: 'com.android.support', name: 'design', version: '28.0.0'
+
+    //字体图标
+    api 'com.joanzapata.iconify:android-iconify-fontawesome:2.2.2'
+    //fragmentation
+    api 'me.yokeyword:fragmentationx:1.0.2'
+    api 'me.yokeyword:fragmentationx-swipeback:1.0.2'
+    //butterknife
+    api 'com.jakewharton:butterknife:10.2.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+    //retrofit retrofit转化器 okhttp okio 网络请求
+    api group: 'com.squareup.retrofit2', name: 'retrofit', version: '2.9.0'
+    api group: 'com.squareup.retrofit2', name: 'converter-scalars', version: '2.9.0'
+    api group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.7.2'
+    api group: 'com.squareup.okio', name: 'okio', version: '2.6.0'
+    //ui加载
+    api 'com.wang.avi:library:2.1.3'
+    //Banner依赖
+    api group: 'com.bigkoo', name: 'convenientbanner', version: '2.0.5'
+    api group: 'androidx.recyclerview', name: 'recyclerview-selection', version: '1.0.0'
+    api group: 'com.ToxicBakery.viewpager.transforms', name: 'view-pager-transforms', version: '1.2.32'
+
+    //FastJson依赖
+    api group: 'com.alibaba', name: 'fastjson', version: '1.2.70'
+
+
+    //RxJava
+    api group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.2.19'
+    api group: 'io.reactivex.rxjava2', name: 'rxandroid', version: '2.1.1'
+    api group: 'com.squareup.retrofit2', name: 'adapter-rxjava', version: '2.8.2'
+
+
+
+}

@@ -1,0 +1,6 @@
+rootProject.name='FestEc'
+include ':example'
+include ':latte-annotation'
+include ':latte-compiler'
+include ':latte-core'
+include ':latte-ec'
