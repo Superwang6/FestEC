@@ -12,6 +12,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.yuan.fest.latte.delegates.LatteDelegate;
 import com.yuan.fest.latte.ec.R;
 import com.yuan.fest.latte.ec.R2;
+import com.yuan.fest.latte.ec.net.NetConfig;
+import com.yuan.fest.latte.net.RestClient;
+import com.yuan.fest.latte.net.callback.IError;
+import com.yuan.fest.latte.net.callback.IFailure;
+import com.yuan.fest.latte.net.callback.ISuccess;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -37,8 +42,31 @@ public class SignUpDelegate extends LatteDelegate {
     @OnClick(R2.id.btn_sign_up)
     void onClickSignUp() {
         if(checkForm()) {
-            //TODO 上传信息到服务器
-            Toast.makeText(getContext(), "成功", Toast.LENGTH_SHORT).show();
+            RestClient.builder()
+                    .url(NetConfig.getServer() + "hello")
+                    .params("key","value")
+                    .success(new ISuccess() {
+                        @Override
+                        public void onSuccess(String response) {
+                            Toast.makeText(getContext(), "成功", Toast.LENGTH_SHORT).show();
+                            SignHandler.onSignUp(response);
+                        }
+                    })
+                    .error(new IError() {
+                        @Override
+                        public void onError(int code, String msg) {
+
+                        }
+                    })
+                    .failure(new IFailure() {
+                        @Override
+                        public void onFailure() {
+
+                        }
+                    })
+                    .build()
+                    .post();
+
         }
     }
 

@@ -56,9 +56,11 @@ dependencies {
     api group: 'com.bigkoo', name: 'convenientbanner', version: '2.0.5'
     api group: 'androidx.recyclerview', name: 'recyclerview-selection', version: '1.0.0'
     api group: 'com.ToxicBakery.viewpager.transforms', name: 'view-pager-transforms', version: '1.2.32'
-
     //FastJson依赖
     api group: 'com.alibaba', name: 'fastjson', version: '1.2.70'
+    //greendao
+    api group: 'org.greenrobot', name: 'greendao', version: '3.3.0'
+    api group: 'org.greenrobot', name: 'greendao-generator', version: '3.3.0'
 
 
     //RxJava

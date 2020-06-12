@@ -1,0 +1,23 @@
+server:
+  port: 8090
+  servlet:
+    context-path: /
+
+# 数据源设置
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
+    username: root
+    password: root
+    autoCommitOnClose: false
+    checkoutTimeout: 5000
+    initialPoolSize: 2
+    minPoolSize: 2
+    maxPoolSize: 20
+    maxIdleTime: 60
+    acquireIncrement: 6
+    acquireRetryAttempts: 10
+    acquireRetryDelay: 600
+    maxIdleTimeExcessConnections: 3600
+    idleConnectionTestPeriod: 60

@@ -1,6 +1,7 @@
 package com.yuan.fest.latte.net.callback;
 
 import android.os.Handler;
+import android.util.Log;
 
 import com.yuan.fest.latte.ui.loader.LatteLoader;
 import com.yuan.fest.latte.ui.loader.LoaderStyle;
@@ -50,6 +51,7 @@ public class RequestCallbacks implements Callback<String> {
 
     @Override
     public void onFailure(Call<String> call, Throwable t) {
+        t.printStackTrace();
         if(FAILURE != null) {
             FAILURE.onFailure();
         }
