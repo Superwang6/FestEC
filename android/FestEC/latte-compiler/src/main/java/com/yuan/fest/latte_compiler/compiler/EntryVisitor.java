@@ -35,6 +35,7 @@ public final class EntryVisitor extends SimpleAnnotationValueVisitor7<Void, Void
     }
 
     private void generateJavaCode() {
+        System.out.println("111");
         final TypeSpec targetActivity = TypeSpec.classBuilder("WXEntryActivity")
                 .addModifiers(Modifier.PUBLIC)
                 .addModifiers(Modifier.FINAL)
@@ -46,6 +47,7 @@ public final class EntryVisitor extends SimpleAnnotationValueVisitor7<Void, Void
                 .build();
         try {
             javaFile.writeTo(mFiler);
+            System.out.println(mFiler.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
