@@ -34,6 +34,16 @@ public class SignUpDelegate extends LatteDelegate {
     @BindView(R2.id.te_re_password)
     TextInputEditText mTeRePassword;
 
+    private ISignListener mISignListener = null;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if(activity instanceof ISignListener){
+            mISignListener = (ISignListener) activity;
+        }
+    }
+
     @OnClick(R2.id.tv_link_sign_in)
     void onClickLinkSignIn(){
         start(new SignInDelegate());
@@ -48,8 +58,7 @@ public class SignUpDelegate extends LatteDelegate {
                     .success(new ISuccess() {
                         @Override
                         public void onSuccess(String response) {
-                            Toast.makeText(getContext(), "成功", Toast.LENGTH_SHORT).show();
-                            SignHandler.onSignUp(response);
+                            SignHandler.onSignUp(response,mISignListener);
                         }
                     })
                     .error(new IError() {
@@ -67,16 +76,6 @@ public class SignUpDelegate extends LatteDelegate {
                     .build()
                     .post();
 
-        }
-    }
-
-    private ISignListener mISignListener = null;
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if(activity instanceof ISignListener){
-            mISignListener = (ISignListener) activity;
         }
     }
 

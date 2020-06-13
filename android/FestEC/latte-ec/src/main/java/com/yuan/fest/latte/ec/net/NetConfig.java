@@ -6,7 +6,7 @@ public class NetConfig {
 
     public static String getServer(){
         if(ISDEBUG) {
-            serverDomain = "http://192.168.0.114:8090/";
+            serverDomain = "http://192.168.0.109:8090/";
         }
         return serverDomain;
     }

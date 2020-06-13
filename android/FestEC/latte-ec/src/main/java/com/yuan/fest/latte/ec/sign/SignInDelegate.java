@@ -1,9 +1,9 @@
 package com.yuan.fest.latte.ec.sign;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -11,6 +11,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.yuan.fest.latte.delegates.LatteDelegate;
 import com.yuan.fest.latte.ec.R;
 import com.yuan.fest.latte.ec.R2;
+import com.yuan.fest.latte.ec.net.NetConfig;
+import com.yuan.fest.latte.net.RestClient;
+import com.yuan.fest.latte.net.callback.IError;
+import com.yuan.fest.latte.net.callback.IFailure;
+import com.yuan.fest.latte.net.callback.ISuccess;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -22,11 +27,44 @@ public class SignInDelegate extends LatteDelegate {
     @BindView(R2.id.te_password)
     TextInputEditText mTePassword;
 
+    private ISignListener mISignListener = null;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if(activity instanceof ISignListener){
+            mISignListener = (ISignListener) activity;
+        }
+    }
+
     @OnClick(R2.id.btn_sign_in)
     void onClickSignIn() {
         if (checkForm()) {
-            //TODO 登录
-            Toast.makeText(getContext(), "登录", Toast.LENGTH_SHORT).show();
+            if(checkForm()) {
+                RestClient.builder()
+                        .url(NetConfig.getServer() + "hello")
+                        .params("key","value")
+                        .success(new ISuccess() {
+                            @Override
+                            public void onSuccess(String response) {
+                                SignHandler.onSignIn(response,mISignListener);
+                            }
+                        })
+                        .error(new IError() {
+                            @Override
+                            public void onError(int code, String msg) {
+
+                            }
+                        })
+                        .failure(new IFailure() {
+                            @Override
+                            public void onFailure() {
+
+                            }
+                        })
+                        .build()
+                        .post();
+            }
         }
     }
 

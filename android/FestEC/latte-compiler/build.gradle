@@ -3,6 +3,15 @@ apply plugin: 'java-library'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    api project(path: ':latte-annotation')
+    annotationProcessor project(path: ':latte-annotation')
+
+    //javapoet
+    api group: 'com.squareup', name: 'javapoet', version: '1.12.1'
+    api group: 'com.google.auto.service', name: 'auto-service', version: '1.0-rc7'
+    api group: 'com.google.auto', name: 'auto-common', version: '0.10'
+
+
 }
 
 sourceCompatibility = "7"
