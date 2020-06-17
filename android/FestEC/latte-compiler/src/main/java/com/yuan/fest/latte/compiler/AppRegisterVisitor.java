@@ -1,4 +1,4 @@
-package com.yuan.fest.latte_compiler.compiler;
+package com.yuan.fest.latte.compiler;
 
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeName;
@@ -11,7 +11,7 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.SimpleAnnotationValueVisitor7;
 
-public final class EntryVisitor extends SimpleAnnotationValueVisitor7<Void, Void> {
+public final class AppRegisterVisitor extends SimpleAnnotationValueVisitor7<Void, Void> {
 
     private Filer mFiler = null;
     private TypeMirror mTypeMirror = null;
@@ -35,19 +35,16 @@ public final class EntryVisitor extends SimpleAnnotationValueVisitor7<Void, Void
     }
 
     private void generateJavaCode() {
-        System.out.println("111");
-        final TypeSpec targetActivity = TypeSpec.classBuilder("WXEntryActivity")
+        final TypeSpec targetActivity = TypeSpec.classBuilder("AppRegister")
                 .addModifiers(Modifier.PUBLIC)
                 .addModifiers(Modifier.FINAL)
                 .superclass(TypeName.get(mTypeMirror))
                 .build();
-        final JavaFile javaFile = JavaFile
-                .builder(mPackageName + ".wxapi", targetActivity)
-                .addFileComment("微信入口文件")
+        final JavaFile javaFile = JavaFile.builder(mPackageName + ".wxapi", targetActivity)
+                .addFileComment("微信广播接收器")
                 .build();
         try {
             javaFile.writeTo(mFiler);
-            System.out.println(mFiler.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }

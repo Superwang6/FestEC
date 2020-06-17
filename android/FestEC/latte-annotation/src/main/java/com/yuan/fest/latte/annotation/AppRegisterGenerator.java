@@ -1,4 +1,4 @@
-package com.yuan.fest.latte_annotation.annotation;
+package com.yuan.fest.latte.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

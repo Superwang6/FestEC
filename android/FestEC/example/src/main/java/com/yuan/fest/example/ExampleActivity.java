@@ -6,7 +6,6 @@ import com.yuan.fest.latte.activities.ProxyActivity;
 import com.yuan.fest.latte.delegates.LatteDelegate;
 import com.yuan.fest.latte.ec.launcher.LauncherDelegate;
 import com.yuan.fest.latte.ec.sign.ISignListener;
-import com.yuan.fest.latte.ec.sign.SignInDelegate;
 import com.yuan.fest.latte.ec.sign.SignUpDelegate;
 import com.yuan.fest.latte.ui.launcher.ILauncherListener;
 import com.yuan.fest.latte.ui.launcher.OnLauncherFinishTag;

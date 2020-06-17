@@ -1,7 +1,7 @@
 package com.yuan.fest.example.generators;
 
 import com.yuan.fest.latte.wechat.templetes.WXPayEntryTemplete;
-import com.yuan.fest.latte_annotation.annotation.PayEntryGenerator;
+import com.yuan.fest.latte.annotation.PayEntryGenerator;
 
 @PayEntryGenerator(
         packageName = "com.yuan.fest.example",

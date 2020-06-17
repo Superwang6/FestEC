@@ -1,9 +1,9 @@
-package com.yuan.fest.latte_compiler.compiler;
+package com.yuan.fest.latte.compiler;
 
 import com.google.auto.service.AutoService;
-import com.yuan.fest.latte_annotation.annotation.AppRegisterGenerator;
-import com.yuan.fest.latte_annotation.annotation.EntryGenerator;
-import com.yuan.fest.latte_annotation.annotation.PayEntryGenerator;
+import com.yuan.fest.latte.annotation.AppRegisterGenerator;
+import com.yuan.fest.latte.annotation.EntryGenerator;
+import com.yuan.fest.latte.annotation.PayEntryGenerator;
 
 import java.lang.annotation.Annotation;
 import java.util.LinkedHashSet;
@@ -25,19 +25,17 @@ import javax.lang.model.element.TypeElement;
 public class LatteProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+        System.out.println("======111=====");
         generateEntryCode(roundEnv);
         generatePayEntryCode(roundEnv);
         generateAppRegisterCode(roundEnv);
-        System.out.println(222);
         return true;
     }
 
     private void generateEntryCode(RoundEnvironment env) {
-        System.out.println(333);
         final EntryVisitor entryVisitor = new EntryVisitor();
         entryVisitor.setFiler(processingEnv.getFiler());
         scan(env, EntryGenerator.class, entryVisitor);
-        System.out.println(444);
     }
 
     private void generatePayEntryCode(RoundEnvironment env) {
@@ -52,14 +50,20 @@ public class LatteProcessor extends AbstractProcessor {
         scan(env, AppRegisterGenerator.class, appRegisterVisitor);
     }
 
-    private void scan(RoundEnvironment env, Class<? extends Annotation> annotation, AnnotationValueVisitor visitor) {
-        for (Element element : env.getElementsAnnotatedWith(annotation)) {
-            final List<? extends AnnotationMirror> annotationMirrors = element.getAnnotationMirrors();
+    private void scan(RoundEnvironment env,
+                      Class<? extends Annotation> annotation,
+                      AnnotationValueVisitor visitor) {
+
+        for (Element typeElement : env.getElementsAnnotatedWith(annotation)) {
+            final List<? extends AnnotationMirror> annotationMirrors =
+                    typeElement.getAnnotationMirrors();
 
             for (AnnotationMirror annotationMirror : annotationMirrors) {
-                final Map<? extends ExecutableElement, ? extends AnnotationValue> elementValues = annotationMirror.getElementValues();
+                final Map<? extends ExecutableElement, ? extends AnnotationValue> elementValues
+                        = annotationMirror.getElementValues();
 
-                for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : elementValues.entrySet()) {
+                for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry
+                        : elementValues.entrySet()) {
                     entry.getValue().accept(visitor, null);
                 }
             }

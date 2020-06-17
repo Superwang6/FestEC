@@ -1,5 +1,4 @@
-package com.yuan.fest.latte_annotation.annotation;
-
+package com.yuan.fest.latte.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -8,9 +7,9 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.SOURCE)
-public @interface EntryGenerator {
+public @interface PayEntryGenerator {
 
     String packageName();
 
-    Class<?> entryTemplete();
+    Class<?> payEntryTemplete();
 }

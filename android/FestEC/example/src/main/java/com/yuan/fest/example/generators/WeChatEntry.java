@@ -1,7 +1,7 @@
 package com.yuan.fest.example.generators;
 
 import com.yuan.fest.latte.wechat.templetes.WXEntryTemplete;
-import com.yuan.fest.latte_annotation.annotation.EntryGenerator;
+import com.yuan.fest.latte.annotation.EntryGenerator;
 
 @EntryGenerator(
         packageName = "com.yuan.fest.example",
