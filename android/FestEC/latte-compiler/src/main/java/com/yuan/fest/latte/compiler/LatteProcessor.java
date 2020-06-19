@@ -25,7 +25,6 @@ import javax.lang.model.element.TypeElement;
 public class LatteProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        System.out.println("======111=====");
         generateEntryCode(roundEnv);
         generatePayEntryCode(roundEnv);
         generateAppRegisterCode(roundEnv);

@@ -7,10 +7,11 @@ dependencies {
     api group: 'org.checkerframework', name: 'checker', version: '3.4.1'
 
 
-    api 'com.squareup:javapoet:1.9.0'
-    api 'com.google.auto.service:auto-service:1.0-rc3'
-    annotationProcessor 'com.google.auto.service:auto-service:1.0-rc3'
-    api 'com.google.auto:auto-common:0.8'
+    api group: 'com.squareup', name: 'javapoet', version: '1.12.1'
+    api group: 'com.google.auto.service', name: 'auto-service', version: '1.0-rc7'
+    annotationProcessor group: 'com.google.auto.service', name: 'auto-service', version: '1.0-rc7'
+    api group: 'com.google.auto', name: 'auto-common', version: '0.10'
+
 }
 
 sourceCompatibility = "7"

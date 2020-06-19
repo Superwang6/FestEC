@@ -61,8 +61,6 @@ dependencies {
     //greendao
     api group: 'org.greenrobot', name: 'greendao', version: '3.3.0'
     api group: 'org.greenrobot', name: 'greendao-generator', version: '3.3.0'
-
-
     //RxJava
     api group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.2.19'
     api group: 'io.reactivex.rxjava2', name: 'rxandroid', version: '2.1.1'

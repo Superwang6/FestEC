@@ -3,9 +3,8 @@ package com.yuan.fest.latte.ec.icon;
 import com.joanzapata.iconify.Icon;
 
 public enum EcIcons implements Icon {
-    icon_debug('\ue6da'),
-    icon_package('\ue606'),
-    icon_light('\ue791');
+    icon_scan('\ue640'),
+    icon_message('\ue602');
 
     private char character;
 

@@ -6,8 +6,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.yuan.fest.latte.app.ConfigType;
+import com.yuan.fest.latte.app.Latte;
 import com.yuan.fest.latte.delegates.LatteDelegate;
-import com.yuan.fest.latte.ec.net.NetConfig;
 import com.yuan.fest.latte.net.RestClient;
 import com.yuan.fest.latte.net.callback.IError;
 import com.yuan.fest.latte.net.callback.IFailure;
@@ -27,7 +28,7 @@ public class ExampleDelegate extends LatteDelegate {
 
     private void testRestClient() {
         RestClient.builder()
-                .url(NetConfig.getServer() + "hello")
+                .url(Latte.getConfigurations().get(ConfigType.API_HOST) + "hello")
                 .loader(getContext())
                 .success(new ISuccess() {
                     @Override

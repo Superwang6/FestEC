@@ -43,7 +43,6 @@ public final class EntryVisitor extends SimpleAnnotationValueVisitor7<Void, Void
                 .addFileComment("微信入口文件")
                 .build();
         try {
-            System.out.println("===2222====");
             javaFile.writeTo(mFiler);
         } catch (IOException e) {
             e.printStackTrace();

@@ -4,15 +4,16 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.yuan.fest.latte.app.ConfigType;
+import com.yuan.fest.latte.app.Latte;
 import com.yuan.fest.latte.delegates.LatteDelegate;
 import com.yuan.fest.latte.ec.R;
 import com.yuan.fest.latte.ec.R2;
-import com.yuan.fest.latte.ec.net.NetConfig;
+import com.yuan.fest.latte.ec.main.EcBottomDelegate;
 import com.yuan.fest.latte.net.RestClient;
 import com.yuan.fest.latte.net.callback.IError;
 import com.yuan.fest.latte.net.callback.IFailure;
@@ -53,12 +54,13 @@ public class SignUpDelegate extends LatteDelegate {
     void onClickSignUp() {
         if(checkForm()) {
             RestClient.builder()
-                    .url(NetConfig.getServer() + "hello")
+                    .url(Latte.getConfigurations().get(ConfigType.API_HOST) + "hello")
                     .params("key","value")
                     .success(new ISuccess() {
                         @Override
                         public void onSuccess(String response) {
                             SignHandler.onSignUp(response,mISignListener);
+                            startWithPop(new EcBottomDelegate());
                         }
                     })
                     .error(new IError() {

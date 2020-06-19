@@ -1,13 +1,14 @@
 package com.yuan.fest.latte.app;
 
 import android.content.Context;
+import android.os.Handler;
 
 import java.util.Map;
 
 public final class Latte {
 
     public static Configurator init(Context context) {
-        getConfigurations().put(ConfigType.APPLICATION_CONTEXT.name(),context.getApplicationContext());
+        getConfigurations().put(ConfigType.APPLICATION_CONTEXT.name(), context.getApplicationContext());
         return Configurator.getInstance();
     }
 
@@ -17,5 +18,9 @@ public final class Latte {
 
     public static Context getApplication() {
         return (Context) getConfigurations().get(ConfigType.APPLICATION_CONTEXT.name());
+    }
+
+    public static Handler getHandler() {
+        return (Handler) getConfigurations().get(ConfigType.HANDLER.name());
     }
 }
