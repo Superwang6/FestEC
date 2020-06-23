@@ -27,14 +27,14 @@ public class CommonResult<T> {
      * 成功返回结果
      */
     public static <T> CommonResult<T> success() {
-        return new CommonResult<T>(ResultCode.SUCCESS.getCode(),ResultCode.SUCCESS.getMessage(),null);
+        return new CommonResult<T>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(),null);
     }
     /**
      * 成功返回结果
      * @param data 获取数据信息
      */
     public static <T> CommonResult<T> success(T data) {
-        return new CommonResult<T>(ResultCode.SUCCESS.getCode(),ResultCode.SUCCESS.getMessage(),data);
+        return new CommonResult<T>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(),data);
     }
 
     /**
@@ -42,7 +42,7 @@ public class CommonResult<T> {
      * @param data 获取数据信息
      * @param message   提示信息
      */
-    public static <T> CommonResult<T> success(T data,String message) {
+    public static <T> CommonResult<T> success(T data, String message) {
         return new CommonResult<T>(ResultCode.SUCCESS.getCode(),message,data);
     }
 
@@ -50,7 +50,7 @@ public class CommonResult<T> {
      * 失败返回结果
      */
     public static <T> CommonResult<T> failed() {
-        return new CommonResult<T>(ResultCode.ERROR.getCode(),ResultCode.ERROR.getMessage(),null);
+        return new CommonResult<T>(ResultCode.ERROR.getCode(), ResultCode.ERROR.getMessage(),null);
     }
 
     /**
@@ -66,7 +66,7 @@ public class CommonResult<T> {
      * @param resultCode    失败错误原因
      * @param message   失败提示信息
      */
-    public static <T> CommonResult<T> failed(ResultCode resultCode,String message) {
+    public static <T> CommonResult<T> failed(ResultCode resultCode, String message) {
         return new CommonResult<T>(resultCode.getCode(),message,null);
     }
 }

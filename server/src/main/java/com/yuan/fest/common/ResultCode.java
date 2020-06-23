@@ -8,7 +8,6 @@ public enum ResultCode {
     ,UNJURISDICTION("3","无权登录")
     ,ERROR_LOGINFORUSERNAMEPASSWORK("4","用户名密码错误")
     ,NOT_LOGIN("5","未登录")
-    ,ERROR_TIME("6","请选择正确的开始时间或结束时间")
     ;
     private String code;
     private String message;
