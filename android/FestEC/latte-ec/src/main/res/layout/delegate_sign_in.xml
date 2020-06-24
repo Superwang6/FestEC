@@ -44,11 +44,11 @@
                     android:layout_marginBottom="10dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/te_email"
+                        android:id="@+id/te_telephone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:hint="邮箱"
+                        android:hint="电话"
                         android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
 

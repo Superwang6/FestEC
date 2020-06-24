@@ -86,5 +86,8 @@ public class User implements Serializable {
      */
     private String picUrl;
 
-
+    /**
+     * 费用点数，一天扣1点
+     */
+    private Integer point;
 }

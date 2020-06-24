@@ -1,7 +1,6 @@
 package com.yuan.fest.latte.net.callback;
 
 import android.os.Handler;
-import android.util.Log;
 
 import com.yuan.fest.latte.ui.loader.LatteLoader;
 import com.yuan.fest.latte.ui.loader.LoaderStyle;

@@ -7,7 +7,7 @@ import org.greenrobot.greendao.database.Database;
 public class DatabaseManager {
 
     private DaoSession mDaoSession = null;
-    private UserProfileDao mDao = null;
+    private UserDao mDao = null;
 
     private DatabaseManager(){}
 
@@ -28,10 +28,10 @@ public class DatabaseManager {
         final ReleaseOpenHelper helper = new ReleaseOpenHelper(context,"fast_ec.db");
         final Database db = helper.getWritableDb();
         mDaoSession = new DaoMaster(db).newSession();
-        mDao = mDaoSession.getUserProfileDao();
+        mDao = mDaoSession.getUserDao();
     }
 
-    public final UserProfileDao getDao() {
+    public final UserDao getDao() {
         return mDao;
     }
 }

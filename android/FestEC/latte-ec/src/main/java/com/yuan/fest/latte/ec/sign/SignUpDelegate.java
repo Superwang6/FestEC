@@ -7,6 +7,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import com.alibaba.fastjson.JSON;
 import com.google.android.material.textfield.TextInputEditText;
 import com.yuan.fest.latte.app.ConfigType;
 import com.yuan.fest.latte.app.Latte;
@@ -15,9 +16,12 @@ import com.yuan.fest.latte.ec.R;
 import com.yuan.fest.latte.ec.R2;
 import com.yuan.fest.latte.ec.main.EcBottomDelegate;
 import com.yuan.fest.latte.net.RestClient;
+import com.yuan.fest.latte.net.callback.ActionCode;
+import com.yuan.fest.latte.net.callback.ActionResult;
 import com.yuan.fest.latte.net.callback.IError;
-import com.yuan.fest.latte.net.callback.IFailure;
 import com.yuan.fest.latte.net.callback.ISuccess;
+import com.yuan.fest.latte.util.encryption.Md5Util;
+import com.yuan.fest.latte.util.toast.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -40,39 +44,48 @@ public class SignUpDelegate extends LatteDelegate {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if(activity instanceof ISignListener){
+        if (activity instanceof ISignListener) {
             mISignListener = (ISignListener) activity;
         }
     }
 
     @OnClick(R2.id.tv_link_sign_in)
-    void onClickLinkSignIn(){
+    void onClickLinkSignIn() {
         start(new SignInDelegate());
     }
 
     @OnClick(R2.id.btn_sign_up)
     void onClickSignUp() {
-        if(checkForm()) {
+        final String name = mTeName.getText().toString();
+        final String phone = mTePhone.getText().toString();
+        final String email = mTeEmail.getText().toString();
+        final String password = mTePassword.getText().toString();
+
+        if (checkForm(name, phone, email, password)) {
+            String md5 = Md5Util.getMD5(password);
             RestClient.builder()
-                    .url(Latte.getConfigurations().get(ConfigType.API_HOST) + "hello")
-                    .params("key","value")
+                    .url(Latte.getConfigurations().get(ConfigType.API_HOST.name()) + "signUp")
+                    .params("nickName", name)
+                    .params("telephone", phone)
+                    .params("email", email)
+                    .params("password", md5)
                     .success(new ISuccess() {
                         @Override
                         public void onSuccess(String response) {
-                            SignHandler.onSignUp(response,mISignListener);
-                            startWithPop(new EcBottomDelegate());
+                            String code = JSON.parseObject(response).getString(ActionResult.CODE.getMark());
+                            if (code.equals(ActionCode.success)) {
+                                SignHandler.onSignUp(response, mISignListener);
+                                startWithPop(new EcBottomDelegate());
+                            } else {
+                                String message = JSON.parseObject(response).getString(ActionResult.MESSAGE.getMark());
+                                ToastUtil.showMsg(getContext(), message);
+                            }
                         }
                     })
                     .error(new IError() {
                         @Override
                         public void onError(int code, String msg) {
-
-                        }
-                    })
-                    .failure(new IFailure() {
-                        @Override
-                        public void onFailure() {
-
+                            ToastUtil.showMsg(getContext(), msg);
                         }
                     })
                     .build()
@@ -81,11 +94,7 @@ public class SignUpDelegate extends LatteDelegate {
         }
     }
 
-    private boolean checkForm() {
-        final String name = mTeName.getText().toString();
-        final String phone = mTePhone.getText().toString();
-        final String email = mTeEmail.getText().toString();
-        final String password = mTePassword.getText().toString();
+    private boolean checkForm(String name, String phone, String email, String password) {
         final String rePassword = mTeRePassword.getText().toString();
 
         boolean isPass = true;
@@ -126,7 +135,7 @@ public class SignUpDelegate extends LatteDelegate {
         if (rePassword == null || rePassword.isEmpty()) {
             mTeRePassword.setError("请重新输入密码");
             isPass = false;
-        } else if(!rePassword.equals(password)){
+        } else if (!rePassword.equals(password)) {
             mTeRePassword.setError("验证密码失败");
             isPass = false;
         } else {
