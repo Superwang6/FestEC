@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuan.fest.mapper.UserBookMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yuan.fest.entity.UserBook">
+        <id column="id" property="id" />
+        <result column="book_id" property="bookId" />
+        <result column="user_id" property="userId" />
+        <result column="is_topping" property="isTopping" />
+        <result column="is_remove" property="isRemove" />
+        <association property="book" resultMap="com.yuan.fest.mapper.BookMapper.BaseResultMap"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="userBookPoSql">
+        id, book_id, user_id, is_topping, is_remove
+    </sql>
+
+    <sql id="userBookPoSqlWithTableName">
+        ${tablename}.id,
+        ${tablename}.book_id,
+        ${tablename}.user_id,
+        ${tablename}.is_topping,
+        ${tablename}.is_remove
+    </sql>
+
+    <select id="queryBookshelfList" resultMap="BaseResultMap">
+        SELECT
+            <include refid="userBookPoSqlWithTableName">
+                <property name="tablename" value="ub"/>
+            </include>,
+            <include refid="com.yuan.fest.mapper.BookMapper.bookPoSqlWithTableName">
+                <property name="tablename" value="b"/>
+            </include>
+        FROM
+            user_book ub,book b
+        WHERE
+            ub.book_id = b.id
+            AND ub.is_remove = 0
+            AND ub.user_id = #{userBook.userId,jdbcType=INTEGER}
+    </select>
+</mapper>

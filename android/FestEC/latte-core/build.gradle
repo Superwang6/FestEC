@@ -65,7 +65,13 @@ dependencies {
     api group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.2.19'
     api group: 'io.reactivex.rxjava2', name: 'rxandroid', version: '2.1.1'
     api group: 'com.squareup.retrofit2', name: 'adapter-rxjava', version: '2.8.2'
-
+    //沉浸式状态栏
+    api ('com.github.niorgai:StatusBarCompat:2.3.3', {
+        exclude group: 'androidx.appcompat:appcompat'
+        exclude group: 'com.google.android.material:material'
+    })
+    //加载网络图片
+    api group: 'com.github.bumptech.glide', name: 'glide', version: '4.11.0'
 
 
 }

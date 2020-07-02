@@ -4,7 +4,11 @@ import com.joanzapata.iconify.Icon;
 
 public enum EcIcons implements Icon {
     icon_scan('\ue640'),
-    icon_message('\ue602');
+    icon_message('\ue602'),
+    icon_find('\ue726'),
+    icon_book_city('\ue620'),
+    icon_mine('\ue615'),
+    icon_bookshelf('\ue610');
 
     private char character;
 

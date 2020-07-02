@@ -6,6 +6,8 @@ import com.yuan.fest.latte.app.Latte;
 
 public class RefreshHandler implements SwipeRefreshLayout.OnRefreshListener {
     private final SwipeRefreshLayout REFRESH_LAYOUT;
+//    private final PageBean BEAN;
+//    private final RecyclerView RECYCLERVIEW;
 
     public RefreshHandler(SwipeRefreshLayout refreshLayout) {
         this.REFRESH_LAYOUT = refreshLayout;

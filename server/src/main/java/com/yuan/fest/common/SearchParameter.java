@@ -1,5 +1,6 @@
 package com.yuan.fest.common;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -79,5 +80,10 @@ public class SearchParameter {
 
     public Integer getLimit(){
         return pageSize;
+    }
+
+    public <T> Page<T> convertIPage(T t){
+        Page<T> page = new Page<>(pageNo,pageSize);
+        return page;
     }
 }

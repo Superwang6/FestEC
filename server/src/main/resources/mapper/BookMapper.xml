@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuan.fest.mapper.BookMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yuan.fest.entity.Book">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="pic_url" property="picUrl" />
+        <result column="author" property="author" />
+        <result column="introduction" property="introduction" />
+        <result column="number" property="number" />
+        <result column="source" property="source" />
+        <result column="state" property="state" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="bookPoSql">
+        id, name, pic_url, author, introduction, number, source, state
+    </sql>
+
+    <sql id="bookPoSqlWithTableName">
+        ${tablename}.id,
+        ${tablename}.name,
+        ${tablename}.pic_url,
+        ${tablename}.author,
+        ${tablename}.introduction,
+        ${tablename}.number,
+        ${tablename}.source,
+        ${tablename}.state
+    </sql>
+</mapper>

@@ -1,6 +1,11 @@
 package com.yuan.fest.example;
 
+import android.os.Build;
+import android.os.Bundle;
+import android.view.WindowManager;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import com.yuan.fest.latte.activities.ProxyActivity;
 import com.yuan.fest.latte.delegates.LatteDelegate;
@@ -12,7 +17,15 @@ import com.yuan.fest.latte.ec.sign.SignUpDelegate;
 import com.yuan.fest.latte.ui.launcher.ILauncherListener;
 import com.yuan.fest.latte.ui.launcher.OnLauncherFinishTag;
 
+import qiu.niorgai.StatusBarCompat;
+
 public class ExampleActivity extends ProxyActivity implements ISignListener, ILauncherListener {
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        StatusBarCompat.translucentStatusBar(this);
+    }
 
     @Override
     public LatteDelegate setRootDelegate() {
