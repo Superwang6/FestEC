@@ -18,4 +18,8 @@ import java.util.List;
 public interface IUserBookService extends IService<UserBook> {
 
     IPage<UserBook> queryBookshelfList(UserBook userBook, SearchParameter param);
+
+    void removeBookshelfList(List<Integer> idList);
+
+    void addBookshelf(UserBook userBook);
 }

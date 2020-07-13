@@ -73,7 +73,7 @@ public class SignUpDelegate extends LatteDelegate {
                         @Override
                         public void onSuccess(String response) {
                             String code = JSON.parseObject(response).getString(ActionResult.CODE.getMark());
-                            if (code.equals(ActionCode.success)) {
+                            if (code.equals(ActionCode.SUCCESS)) {
                                 SignHandler.onSignUp(response, mISignListener);
                                 startWithPop(new EcBottomDelegate());
                             } else {

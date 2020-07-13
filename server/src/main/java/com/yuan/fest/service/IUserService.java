@@ -16,4 +16,6 @@ public interface IUserService extends IService<User> {
     User signUp(User user);
 
     User signIn(User user);
+
+    void updateUser(User user);
 }

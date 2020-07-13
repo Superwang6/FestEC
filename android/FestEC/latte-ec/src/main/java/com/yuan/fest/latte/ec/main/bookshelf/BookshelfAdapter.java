@@ -1,6 +1,7 @@
 package com.yuan.fest.latte.ec.main.bookshelf;
 
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,17 +35,20 @@ public class BookshelfAdapter extends RecyclerView.Adapter<BookshelfAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_item, parent, false);
+        DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
+        int height = displayMetrics.heightPixels;
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        layoutParams.height = height/3;
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//        UserBook userBook = mUserBookList.get(position);
-//        Glide.with(mContext).load(userBook.getBook().getPicUrl()).into(holder.mImageView);
-//        holder.mTvBookName.setText(userBook.getBook().getName());
-//        holder.mTvBookState.setText(userBook.getBook().getState() == 0 ? "连载中" : "已完结");
-        holder.mTvBookName.setText("哈哈哈");
+        UserBook userBook = mUserBookList.get(position);
+        Glide.with(mContext).load(userBook.getBook().getPicUrl()).into(holder.mImageView);
+        holder.mTvBookName.setText(userBook.getBook().getName());
+        holder.mTvBookState.setText(userBook.getBook().getState() == 0 ? "连载中" : "已完结");
     }
 
     @Override
@@ -53,19 +57,16 @@ public class BookshelfAdapter extends RecyclerView.Adapter<BookshelfAdapter.View
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-//        @BindView(R2.id.im_book_pic)
+        @BindView(R2.id.im_book_pic)
         ImageView mImageView;
-//        @BindView(R2.id.tv_book_name)
+        @BindView(R2.id.tv_book_name)
         AppCompatTextView mTvBookName;
-//        @BindView(R2.id.tv_state)
+        @BindView(R2.id.tv_state)
         AppCompatTextView mTvBookState;
 
         public ViewHolder(@NonNull View view) {
             super(view);
-//            ButterKnife.bind(view);
-            mImageView = view.findViewById(R.id.im_book_pic);
-            mTvBookName = view.findViewById(R.id.tv_book_name);
-            mTvBookState = view.findViewById(R.id.tv_state);
+            ButterKnife.bind(this,view);
         }
 
     }

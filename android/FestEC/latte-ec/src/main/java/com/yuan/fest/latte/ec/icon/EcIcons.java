@@ -8,7 +8,10 @@ public enum EcIcons implements Icon {
     icon_find('\ue726'),
     icon_book_city('\ue620'),
     icon_mine('\ue615'),
-    icon_bookshelf('\ue610');
+    icon_bookshelf('\ue610'),
+    icon_search('\ue620'),
+    icon_more('\ue603');
+
 
     private char character;
 

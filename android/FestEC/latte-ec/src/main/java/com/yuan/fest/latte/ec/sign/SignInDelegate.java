@@ -56,7 +56,7 @@ public class SignInDelegate extends LatteDelegate {
                         @Override
                         public void onSuccess(String response) {
                             String code = JSON.parseObject(response).getString(ActionResult.CODE.getMark());
-                            if (code.equals(ActionCode.success)) {
+                            if (code.equals(ActionCode.SUCCESS)) {
                                 SignHandler.onSignIn(response, mISignListener);
                                 startWithPop(new EcBottomDelegate());
                             } else {

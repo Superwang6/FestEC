@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yuan.fest.util.TimeKit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -64,4 +65,26 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
         return data;
     }
+
+    @Override
+    @Transactional
+    public void updateUser(User user) {
+        userMapper.updateById(user);
+        changeUser(user);
+        userMapper.updateById(user);
+    }
+
+    private User changeUser(User user) {
+        user.setTelephone("11");
+        int a = 1/0;
+        change2User(user);
+        return user;
+    }
+
+    private User change2User(User user){
+        user.setTelephone("111");
+        return user;
+    }
+
+
 }

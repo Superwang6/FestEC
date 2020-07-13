@@ -6,6 +6,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -19,9 +20,9 @@ import com.yuan.fest.latte.ec.R;
 import com.yuan.fest.latte.ec.R2;
 import com.yuan.fest.latte.ec.entity.UserBook;
 import com.yuan.fest.latte.net.RestClient;
+import com.yuan.fest.latte.net.callback.ActionCode;
 import com.yuan.fest.latte.net.callback.ActionResult;
 import com.yuan.fest.latte.net.callback.ISuccess;
-import com.yuan.fest.latte.ui.refresh.RefreshHandler;
 import com.yuan.fest.latte.util.net.ResponseUtil;
 
 import java.util.List;
@@ -35,34 +36,43 @@ public class BookshelfDelegate extends BottomItemDelegate {
     SwipeRefreshLayout mRefreshLayout = null;
     @BindView(R2.id.tb_index)
     Toolbar mToolbar = null;
-    @BindView(R2.id.icon_index_scan)
-    IconTextView mIconScan = null;
     @BindView(R2.id.et_search_view)
     AppCompatEditText mSearchView = null;
-
-    private RefreshHandler mRefreshHandler = null;
+    @BindView(R2.id.icon_index_search)
+    IconTextView mIconSearch = null;
+    @BindView(R2.id.icon_index_more)
+    IconTextView mIconMore = null;
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
-        mRefreshHandler = new RefreshHandler(mRefreshLayout);
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mRefreshLayout.setRefreshing(true);
+                queryBookshelfData();
+                mRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     /**
      * 第一页数据，进来以后直接加载
      */
-    public void firstPage() {
+    public void queryBookshelfData() {
         RestClient.builder()
                 .url(Latte.getConfigurations().get(ConfigType.API_HOST.name()) + "/bookshelf/queryBookshelfList")
                 .params("userId", 3)
-                .params("pageNo", 1)
-                .params("pageSize", 3)
+                .params("pageNo",1)
+                .params("pageSize",100)
                 .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {
                         JSONObject jsonObject = JSON.parseObject(response);
-                        if (ResponseUtil.checkCode(jsonObject)) {
+                        if (ResponseUtil.checkCode(jsonObject, ActionCode.SUCCESS)) {
                             List<UserBook> bookList = jsonObject.getJSONArray(ActionResult.DATA.getMark()).toJavaList(UserBook.class);
                             initRecyclerView(bookList);
+                        } else {
+                            ResponseUtil.checkTemplate(jsonObject,getContext());
                         }
                     }
                 })
@@ -81,6 +91,8 @@ public class BookshelfDelegate extends BottomItemDelegate {
 
     private void initRecyclerView(List<UserBook> bookList) {
         BookshelfAdapter adapter = new BookshelfAdapter(bookList,getContext());
+        GridLayoutManager manager = new GridLayoutManager(getContext(),3);
+        mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(adapter);
     }
 
@@ -88,12 +100,12 @@ public class BookshelfDelegate extends BottomItemDelegate {
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
         initRefreshLayout();
-        firstPage();
+        queryBookshelfData();
     }
 
     @Override
     public Object setLayout() {
-        return R.layout.delegate_index;
+        return R.layout.delegate_bookshelf;
     }
 
 

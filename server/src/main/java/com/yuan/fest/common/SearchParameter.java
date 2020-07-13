@@ -74,16 +74,16 @@ public class SearchParameter {
      */
     private String search;
 
-    public Integer getOffset(){
-        return (pageNo -1) * pageSize;
+    public Integer getOffset() {
+        return (pageNo - 1) * pageSize;
     }
 
-    public Integer getLimit(){
+    public Integer getLimit() {
         return pageSize;
     }
 
-    public <T> Page<T> convertIPage(T t){
-        Page<T> page = new Page<>(pageNo,pageSize);
+    public <T> Page<T> convertIPage(T t) {
+        Page<T> page = new Page<>(pageNo, pageSize);
         return page;
     }
 }

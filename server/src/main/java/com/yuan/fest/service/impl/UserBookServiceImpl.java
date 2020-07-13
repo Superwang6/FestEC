@@ -11,11 +11,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author 王平远
@@ -30,7 +31,26 @@ public class UserBookServiceImpl extends ServiceImpl<UserBookMapper, UserBook> i
     @Override
     public IPage<UserBook> queryBookshelfList(UserBook userBook, SearchParameter param) {
         Page<UserBook> userBookPage = param.convertIPage(userBook);
-        IPage<UserBook> userBookList = userBookMapper.queryBookshelfList(userBookPage,userBook);
+        IPage<UserBook> userBookList = userBookMapper.queryBookshelfList(userBookPage, userBook);
         return userBookList;
+    }
+
+    @Override
+    public void removeBookshelfList(List<Integer> idList) {
+        List<UserBook> userBooks = new ArrayList<>();
+        for (Integer id : idList) {
+            UserBook userBook = new UserBook();
+            userBook.setId(id);
+            userBook.setIsRemove(1);
+            userBooks.add(userBook);
+        }
+        updateBatchById(userBooks);
+    }
+
+    @Override
+    public void addBookshelf(UserBook userBook) {
+        userBook.setIsRemove(0);
+//        userBook.setUserId();
+        userBookMapper.insert(userBook);
     }
 }
