@@ -31,7 +31,7 @@ public class UserBookServiceImpl extends ServiceImpl<UserBookMapper, UserBook> i
     @Override
     public IPage<UserBook> queryBookshelfList(UserBook userBook, SearchParameter param) {
         Page<UserBook> userBookPage = param.convertIPage(userBook);
-        IPage<UserBook> userBookList = userBookMapper.queryBookshelfList(userBookPage, userBook);
+        IPage<UserBook> userBookList = userBookMapper.queryBookshelfList(userBookPage, userBook, param);
         return userBookList;
     }
 

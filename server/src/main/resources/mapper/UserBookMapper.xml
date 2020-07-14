@@ -39,5 +39,9 @@
             ub.book_id = b.id
             AND ub.is_remove = 0
             AND ub.user_id = #{userBook.userId,jdbcType=INTEGER}
+            <if test="param.search != null">
+                AND (b.name like concat('%',#{param.search,jdbcType=VARCHAR},'%')
+                    OR b.author like concat('%',#{param.search,jdbcType=VARCHAR},'%'))
+            </if>
     </select>
 </mapper>

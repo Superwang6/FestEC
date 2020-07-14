@@ -18,16 +18,23 @@ import com.yuan.fest.latte.app.Latte;
 import com.yuan.fest.latte.delegates.bottom.BottomItemDelegate;
 import com.yuan.fest.latte.ec.R;
 import com.yuan.fest.latte.ec.R2;
+import com.yuan.fest.latte.ec.database.DatabaseManager;
+import com.yuan.fest.latte.ec.database.User;
+import com.yuan.fest.latte.ec.database.UserDao;
 import com.yuan.fest.latte.ec.entity.UserBook;
 import com.yuan.fest.latte.net.RestClient;
 import com.yuan.fest.latte.net.callback.ActionCode;
 import com.yuan.fest.latte.net.callback.ActionResult;
 import com.yuan.fest.latte.net.callback.ISuccess;
 import com.yuan.fest.latte.util.net.ResponseUtil;
+import com.yuan.fest.latte.util.toast.ToastUtil;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class BookshelfDelegate extends BottomItemDelegate {
     @BindView(R2.id.rv_index)
@@ -43,13 +50,55 @@ public class BookshelfDelegate extends BottomItemDelegate {
     @BindView(R2.id.icon_index_more)
     IconTextView mIconMore = null;
 
+    @OnClick({R2.id.icon_index_search, R2.id.icon_index_more})
+    public void doSearch(View view) {
+        switch (view.getId()) {
+            case R.id.icon_index_search:
+                if (mSearchView != null) {
+                    String searchText = mSearchView.getText().toString();
+                    if (!"".equals(searchText)) {
+                        Map<String, Object> params = new HashMap<>();
+                        params.put("pageNo", 1);
+                        params.put("pageSize", 12);
+                        params.put("search", searchText);
+                        queryBookshelfData(params);
+                    }
+                }
+                break;
+            case R.id.icon_index_more:
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    @OnClick(R2.id.icon_index_more)
+    public void doMore() {
+        ToastUtil.showMsg(getContext(), "应该给哥哥");
+    }
+
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 mRefreshLayout.setRefreshing(true);
-                queryBookshelfData();
+                if (mSearchView != null) {
+                    String searchText = mSearchView.getText().toString();
+                    if (!"".equals(searchText)) {
+                        Map<String, Object> params = new HashMap<>();
+                        params.put("pageNo", 1);
+                        params.put("pageSize", 12);
+                        params.put("search", searchText);
+                        queryBookshelfData(params);
+                    } else {
+                        Map<String, Object> params = new HashMap<>();
+                        params.put("pageNo", 1);
+                        params.put("pageSize", 12);
+                        queryBookshelfData(params);
+                    }
+                }
                 mRefreshLayout.setRefreshing(false);
             }
         });
@@ -58,26 +107,40 @@ public class BookshelfDelegate extends BottomItemDelegate {
     /**
      * 第一页数据，进来以后直接加载
      */
-    public void queryBookshelfData() {
-        RestClient.builder()
-                .url(Latte.getConfigurations().get(ConfigType.API_HOST.name()) + "/bookshelf/queryBookshelfList")
-                .params("userId", 3)
-                .params("pageNo",1)
-                .params("pageSize",100)
-                .success(new ISuccess() {
-                    @Override
-                    public void onSuccess(String response) {
-                        JSONObject jsonObject = JSON.parseObject(response);
-                        if (ResponseUtil.checkCode(jsonObject, ActionCode.SUCCESS)) {
-                            List<UserBook> bookList = jsonObject.getJSONArray(ActionResult.DATA.getMark()).toJavaList(UserBook.class);
-                            initRecyclerView(bookList);
-                        } else {
-                            ResponseUtil.checkTemplate(jsonObject,getContext());
+    public void queryBookshelfData(Map<String, Object> params) {
+        User user = queryLocalUser();
+        if (user != null) {
+            RestClient.builder()
+                    .url(Latte.getConfigurations().get(ConfigType.API_HOST.name()) + "/bookshelf/queryBookshelfList")
+                    .params("userId", user.getId())
+                    .params(params)
+                    .success(new ISuccess() {
+                        @Override
+                        public void onSuccess(String response) {
+                            JSONObject jsonObject = JSON.parseObject(response);
+                            if (ResponseUtil.checkCode(jsonObject, ActionCode.SUCCESS)) {
+                                List<UserBook> bookList = jsonObject.getJSONArray(ActionResult.DATA.getMark()).toJavaList(UserBook.class);
+                                initRecyclerView(bookList);
+                            } else {
+                                ResponseUtil.checkTemplate(jsonObject, getContext());
+                            }
                         }
-                    }
-                })
-                .build()
-                .get();
+                    })
+                    .build()
+                    .get();
+        }
+    }
+
+    /**
+     * 查询本地存储的用户
+     */
+    private User queryLocalUser() {
+        List<User> userList = DatabaseManager.getInstance().getDao().queryBuilder().orderDesc(UserDao.Properties.Id).list();
+        User user = null;
+        if (userList != null && userList.size() > 0) {
+            user = userList.get(0);
+        }
+        return user;
     }
 
     private void initRefreshLayout() {
@@ -90,8 +153,8 @@ public class BookshelfDelegate extends BottomItemDelegate {
     }
 
     private void initRecyclerView(List<UserBook> bookList) {
-        BookshelfAdapter adapter = new BookshelfAdapter(bookList,getContext());
-        GridLayoutManager manager = new GridLayoutManager(getContext(),3);
+        BookshelfAdapter adapter = new BookshelfAdapter(bookList, getContext());
+        GridLayoutManager manager = new GridLayoutManager(getContext(), 3);
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(adapter);
     }
@@ -100,7 +163,10 @@ public class BookshelfDelegate extends BottomItemDelegate {
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
         initRefreshLayout();
-        queryBookshelfData();
+        Map<String, Object> params = new HashMap<>();
+        params.put("pageNo", 1);
+        params.put("pageSize", 12);
+        queryBookshelfData(params);
     }
 
     @Override

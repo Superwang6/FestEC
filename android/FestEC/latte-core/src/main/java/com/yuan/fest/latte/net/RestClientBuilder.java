@@ -32,6 +32,7 @@ public class RestClientBuilder {
     private String mName = null;
 
     RestClientBuilder() {
+        PARAMS.clear();
     }
 
     public final RestClientBuilder url(String url) {

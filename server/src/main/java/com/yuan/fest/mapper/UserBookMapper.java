@@ -1,6 +1,7 @@
 package com.yuan.fest.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.yuan.fest.common.SearchParameter;
 import com.yuan.fest.entity.UserBook;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -10,7 +11,7 @@ import java.util.List;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author 王平远
@@ -19,5 +20,5 @@ import java.util.List;
 @Repository
 public interface UserBookMapper extends BaseMapper<UserBook> {
 
-    IPage<UserBook> queryBookshelfList(IPage<UserBook> iPage,@Param("userBook") UserBook userBook);
+    IPage<UserBook> queryBookshelfList(IPage<UserBook> iPage, @Param("userBook") UserBook userBook, @Param("param") SearchParameter param);
 }
