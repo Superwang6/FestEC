@@ -1,9 +1,14 @@
 package com.yuan.fest.latte.ec.main.bookshelf;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.PopupWindow;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -50,36 +55,38 @@ public class BookshelfDelegate extends BottomItemDelegate {
     @BindView(R2.id.icon_index_more)
     IconTextView mIconMore = null;
 
-    @OnClick({R2.id.icon_index_search, R2.id.icon_index_more})
-    public void doSearch(View view) {
-        switch (view.getId()) {
-            case R.id.icon_index_search:
-                if (mSearchView != null) {
-                    String searchText = mSearchView.getText().toString();
-                    if (!"".equals(searchText)) {
-                        Map<String, Object> params = new HashMap<>();
-                        params.put("pageNo", 1);
-                        params.put("pageSize", 12);
-                        params.put("search", searchText);
-                        queryBookshelfData(params);
-                    }
-                }
-                break;
-            case R.id.icon_index_more:
-                break;
-            default:
-                break;
-        }
+    private PopupWindow popupWindow = null;
+    private ManagerShelfListener mListener;
 
+    public BookshelfDelegate(ManagerShelfListener listener) {
+        this.mListener = listener;
     }
 
-    @OnClick(R2.id.icon_index_more)
-    public void doMore() {
-        ToastUtil.showMsg(getContext(), "应该给哥哥");
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @OnClick({R2.id.icon_index_search, R2.id.icon_index_more})
+    public void doIconOnClick(View view) {
+        int id = view.getId();
+        if (id == R.id.icon_index_search) {
+            if (mSearchView != null) {
+                String searchText = mSearchView.getText().toString();
+                if (!"".equals(searchText)) {
+                    Map<String, Object> params = new HashMap<>();
+                    params.put("pageNo", 1);
+                    params.put("pageSize", 12);
+                    params.put("search", searchText);
+                    queryBookshelfData(params);
+                }
+            }
+        } else if (id == R.id.icon_index_more) {
+            int xpop = popupWindow.getContentView().getMeasuredWidth();
+            popupWindow.showAsDropDown(mToolbar, -xpop - 10, 10, Gravity.RIGHT);
+        }
     }
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
+        initPopupWindow();
+
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -100,6 +107,42 @@ public class BookshelfDelegate extends BottomItemDelegate {
                     }
                 }
                 mRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
+    /**
+     * 初始化popupwindow及里面的按钮
+     */
+    private void initPopupWindow() {
+        View popView = LayoutInflater.from(getContext()).inflate(R.layout.popup_item, null, false);
+        View manager = popView.findViewById(R.id.tv_manager_shelf);
+        manager.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        View set = popView.findViewById(R.id.tv_set);
+        View more = popView.findViewById(R.id.tv_more);
+        popupWindow = new PopupWindow(popView, -2, -2);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.popwindow_background));
+        popupWindow.getContentView().measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+
+        manager.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToastUtil.showMsg(getContext(), "SHELF");
+            }
+        });
+
+        set.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToastUtil.showMsg(getContext(), "set");
+            }
+        });
+
+        more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToastUtil.showMsg(getContext(), "more");
             }
         });
     }
@@ -153,7 +196,12 @@ public class BookshelfDelegate extends BottomItemDelegate {
     }
 
     private void initRecyclerView(List<UserBook> bookList) {
-        BookshelfAdapter adapter = new BookshelfAdapter(bookList, getContext());
+        BookshelfAdapter adapter = new BookshelfAdapter(bookList, getContext(), new ManagerShelfListener() {
+            @Override
+            public void onClick(List<UserBook> books) {
+                mListener.onClick(books);
+            }
+        });
         GridLayoutManager manager = new GridLayoutManager(getContext(), 3);
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(adapter);

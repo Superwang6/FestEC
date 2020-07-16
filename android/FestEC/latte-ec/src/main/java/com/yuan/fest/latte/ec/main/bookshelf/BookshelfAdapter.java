@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -25,10 +26,12 @@ public class BookshelfAdapter extends RecyclerView.Adapter<BookshelfAdapter.View
 
     private final List<UserBook> mUserBookList;
     private final Context mContext;
+    private final ManagerShelfListener mListener;
 
-    public BookshelfAdapter(List<UserBook> userBookList, Context context) {
+    public BookshelfAdapter(List<UserBook> userBookList, Context context, ManagerShelfListener listener) {
         this.mUserBookList = userBookList;
         this.mContext = context;
+        this.mListener = listener;
     }
 
     @NonNull
@@ -38,17 +41,32 @@ public class BookshelfAdapter extends RecyclerView.Adapter<BookshelfAdapter.View
         DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
         int height = displayMetrics.heightPixels;
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        layoutParams.height = height/3;
+        layoutParams.height = height / 3;
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         UserBook userBook = mUserBookList.get(position);
         Glide.with(mContext).load(userBook.getBook().getPicUrl()).into(holder.mImageView);
         holder.mTvBookName.setText(userBook.getBook().getName());
         holder.mTvBookState.setText(userBook.getBook().getState() == 0 ? "连载中" : "已完结");
+
+        holder.mLinearLayoutCompat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //打开读书界面
+            }
+        });
+
+        holder.mLinearLayoutCompat.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                mListener.onClick(mUserBookList);
+                return false;
+            }
+        });
     }
 
     @Override
@@ -63,10 +81,12 @@ public class BookshelfAdapter extends RecyclerView.Adapter<BookshelfAdapter.View
         AppCompatTextView mTvBookName;
         @BindView(R2.id.tv_state)
         AppCompatTextView mTvBookState;
+        @BindView((R2.id.ll_parent))
+        LinearLayoutCompat mLinearLayoutCompat;
 
         public ViewHolder(@NonNull View view) {
             super(view);
-            ButterKnife.bind(this,view);
+            ButterKnife.bind(this, view);
         }
 
     }

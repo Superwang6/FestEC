@@ -24,7 +24,7 @@ public class ExampleActivity extends ProxyActivity implements ISignListener, ILa
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarCompat.translucentStatusBar(this);
+//        StatusBarCompat.translucentStatusBar(this);
     }
 
     @Override
