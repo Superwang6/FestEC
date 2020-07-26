@@ -1,2 +1,2 @@
 # FestEC
-Android 练习电商项目
+Android+Springboot 练习书城项目
