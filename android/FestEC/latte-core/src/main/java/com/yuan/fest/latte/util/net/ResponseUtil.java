@@ -2,6 +2,7 @@ package com.yuan.fest.latte.util.net;
 
 import android.content.Context;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yuan.fest.latte.net.callback.ActionCode;
 import com.yuan.fest.latte.net.callback.ActionResult;
@@ -38,6 +39,12 @@ public class ResponseUtil {
         } else if(ActionCode.PARAM_ERROR.equals(code)){
             ToastUtil.showMsg(context,"参数错误");
         }
+    }
+
+    public static void analysisResponse(String response){
+        JSONObject jsonObject = JSON.parseObject(response);
+        String code = jsonObject.getString(ActionResult.CODE.getMark());
+        String 
     }
 
 }

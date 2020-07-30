@@ -1,14 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <shape android:shape="ring" xmlns:android="http://schemas.android.com/apk/res/android">
-            <gradient
-                    android:centerColor="#ff0000"
-                    android:endColor="#0ff676"
-                    android:startColor="#B23AEE"
-                    android:useLevel="false" />
-            <size android:height="100dp" android:width="100dp"/>
-        </shape>
-    </item>
-
-</layer-list>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@android:color/darker_gray"/>
+</shape>

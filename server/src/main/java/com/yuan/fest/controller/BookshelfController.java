@@ -68,7 +68,7 @@ public class BookshelfController {
      * @return
      */
     @RequestMapping("/removeBookshelfList")
-    public CommonResult removeBookshelfList(@RequestParam("idList") List<Integer> idList){
+    public CommonResult removeBookshelfList(@RequestParam(value = "idList") List<Integer> idList){
         try {
             userBookService.removeBookshelfList(idList);
             return CommonResult.success();

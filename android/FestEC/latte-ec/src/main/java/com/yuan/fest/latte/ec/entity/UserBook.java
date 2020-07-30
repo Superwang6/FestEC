@@ -1,6 +1,8 @@
 package com.yuan.fest.latte.ec.entity;
 
 public class UserBook {
+    private Integer id;
+
     /**
      * 书id
      */
@@ -25,6 +27,14 @@ public class UserBook {
      * 书籍
      */
     private Book book;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getBookId() {
         return bookId;
