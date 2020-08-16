@@ -24,10 +24,9 @@ public class BookController {
     @Autowired
     private IBookService bookService;
 
-    public CommonResult queryBookList(){
-
-
-        return null;
+    @RequestMapping("/test")
+    public String queryBookList(){
+        return "hello";
     }
 
 }

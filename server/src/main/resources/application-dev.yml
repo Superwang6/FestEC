@@ -11,6 +11,11 @@ spring:
     url: jdbc:mysql://121.36.153.215:3366/festec?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
     username: root
     password: root
+  redis:
+    database: 0
+    host: 121.36.153.215
+    port: 6379
+    timeout: 1000
 
 mybatis-plus:
   configuration:
