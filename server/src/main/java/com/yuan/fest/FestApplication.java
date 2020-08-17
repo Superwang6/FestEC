@@ -13,7 +13,9 @@ public class FestApplication {
     public static void main(String[] args) {
 //        SpringApplication.run(FestApplication.class, args);
         SpringApplicationBuilder builder = new SpringApplicationBuilder(FestApplication.class);
+        //指定配置文件为后缀pro的
         builder.application().setAdditionalProfiles("pro");
+        //不启动banner
         builder.bannerMode(Banner.Mode.OFF).run(args);
     }
 }

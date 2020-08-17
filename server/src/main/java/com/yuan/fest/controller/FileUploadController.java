@@ -15,18 +15,19 @@ public class FileUploadController {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
     @RequestMapping("/upload")
-    public String upload(MultipartFile uploadFile, HttpServletRequest req){
-        String realPath = req.getSession().getServletContext().getRealPath("/uploadFile/");
+    public String upload(MultipartFile uploadFile, HttpServletRequest req) {
+        String realPath = req.getServletContext().getRealPath("/");
+        String contextPath = req.getContextPath();
         String format = sdf.format(new Date());
-        File folder = new File(realPath + format);
-        if(!folder.exists()) {
+        File folder = new File(realPath + "/uploadFile/" + format);
+        if (!folder.exists()) {
             folder.mkdirs();
         }
         String oldName = uploadFile.getOriginalFilename();
-        String newName = UUID.randomUUID().toString() + oldName.substring(oldName.lastIndexOf("."),oldName.length());
+        String newName = UUID.randomUUID().toString() + oldName.substring(oldName.lastIndexOf("."), oldName.length());
         try {
-            uploadFile.transferTo(new File(folder,newName));
-            String filePath = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/uploadFile/" + format + newName;
+            uploadFile.transferTo(new File(folder, newName));
+            String filePath = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + contextPath + "/uploadFile/" + format + "/" + newName;
             return filePath;
         } catch (Exception e) {
             e.printStackTrace();

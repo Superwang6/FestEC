@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
 
+@Configuration
 public class DataSourceConfig {
 
     @Value("${spring.datasource.driver-class-name}")
@@ -18,6 +19,7 @@ public class DataSourceConfig {
     @Value("${spring.datasource.password}")
     private String password;
 
+    @Bean
     public DataSource createDataSource(){
         DruidDataSource druidDataSource = new DruidDataSource();
         druidDataSource.setDriverClassName(driverClass);
