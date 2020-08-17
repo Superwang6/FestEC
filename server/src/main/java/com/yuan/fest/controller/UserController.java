@@ -1,9 +1,7 @@
 package com.yuan.fest.controller;
 
 
-import com.yuan.fest.common.CommonResult;
-import com.yuan.fest.common.ResultCode;
-import com.yuan.fest.entity.User;
+import com.yuan.fest.annotation.Log;
 import com.yuan.fest.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,4 +22,16 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
+    @RequestMapping("/hello")
+    public String hello(){
+        int i = 1/1;
+        System.out.println(i);
+        return i+"";
+    }
+    @RequestMapping("/hello1")
+    public String hello1(){
+        int i = 1/1;
+        System.out.println(i);
+        return i+"";
+    }
 }
