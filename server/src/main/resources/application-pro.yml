@@ -22,6 +22,14 @@ spring:
         max-idle: 8
         max-wait: -1
         min-idle: 0
+  data:
+    mongodb:
+      authentication-database: admin
+      database: test
+      host: 121.36.153.215
+      port: 27017
+      username: admin
+      password: admin
 
 mybatis-plus:
   configuration:
