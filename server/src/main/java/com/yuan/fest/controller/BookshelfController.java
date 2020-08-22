@@ -37,7 +37,7 @@ public class BookshelfController {
      * @return
      */
     @RequestMapping("/queryBookshelfList")
-    public CommonResult queryBookshelfList(UserBook userBook, SearchParameter param){
+    public CommonResult queryBookshelfList(UserBook userBook,SearchParameter param){
         try {
             IPage<UserBook> userBookList = userBookService.queryBookshelfList(userBook,param);
             return CommonResult.success(userBookList);

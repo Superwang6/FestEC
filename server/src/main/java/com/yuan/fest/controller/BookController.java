@@ -5,8 +5,10 @@ import com.yuan.fest.common.CommonResult;
 import com.yuan.fest.entity.User;
 import com.yuan.fest.service.IBookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -25,8 +27,8 @@ public class BookController {
     private IBookService bookService;
 
     @RequestMapping("/test")
-    public String queryBookList(){
-        return "hello";
+    public String queryBookList(@RequestParam("name") String a){
+        return "hello" + a;
     }
 
 }

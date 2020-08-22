@@ -9,6 +9,9 @@ import com.yuan.fest.mapper.UserBookMapper;
 import com.yuan.fest.service.IUserBookService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,6 +26,7 @@ import java.util.List;
  * @since 2020-07-02
  */
 @Service
+@CacheConfig(cacheNames = "c1")
 public class UserBookServiceImpl extends ServiceImpl<UserBookMapper, UserBook> implements IUserBookService {
 
     @Autowired
